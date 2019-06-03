@@ -31,7 +31,7 @@ public class AgentSystem extends LWJGLBasisFenster {
 		super("Agentenspielwiese", WIDTH, HEIGHT);
 		initDisplay();
 		agentenSpielwiese = ObjektManager.getExemplar();
-		erzeugeAgenten(20);
+		erzeugeAgenten(30);
 	}
 
 	private void erzeugeAgenten(int anz) {

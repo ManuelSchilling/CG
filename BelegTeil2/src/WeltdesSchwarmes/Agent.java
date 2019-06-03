@@ -3,6 +3,7 @@
 import math.Vektor2D;
 import math.Weg2DDynamisch;
 
+
 public class Agent extends BewegendesObjekt {
 	private static int objCounter = 0;
 	public ObjektManager objektManager;
@@ -11,20 +12,21 @@ public class Agent extends BewegendesObjekt {
 		super(position, velocity);
 		this.id = ++objCounter;
 
-		setMass(1);
-		setMaxSpeed(150);
+		setMass(0.2);
+		setMaxSpeed(200);
 		setMaxTurnRate(20);
-		setSwarmDistanz(120);
+		setSwarmDistanz(100);
 		this.r=r;
 		this.g=g;
 		this.b=b;
-		setWegHistorie(new Weg2DDynamisch(20));
+		setWegHistorie(new Weg2DDynamisch(5));
 	}
 	public void setObjektManager(ObjektManager objektManager) {
 		this.objektManager = objektManager;
 	}
 	@Override
 	public void render(){
-		RenderFisch.renderSwarmObjectWithForces((float) position.x, (float) position.y, 10, velocity, getLastAcceleration(),this.r, this.g, this.b);
+		
+			RenderFisch.renderSwarmObjectWithForces((float) position.x, (float) position.y, 10, velocity, getLastAcceleration(),this.r, this.g, this.b, wegHistorie);
 	}
 }
