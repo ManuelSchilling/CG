@@ -1,5 +1,7 @@
 		package WeltdesSchwarmes;
 
+import java.util.Random;
+
 import math.Vektor2D;
 import math.Weg2DDynamisch;
 
@@ -25,6 +27,6 @@ public class Agent extends BewegendesObjekt {
 	}
 	@Override
 	public void render(){
-		RenderFisch.renderSwarmObjectWithForces((float) position.x, (float) position.y, 10, velocity, getLastAcceleration(),this.r, this.g, this.b);
+		RenderFisch.renderSwarmObjectWithForces((float) position.x, (float) position.y, (int)RADIUS, velocity, getLastAcceleration(),this.r, this.g, this.b);
 	}
 }

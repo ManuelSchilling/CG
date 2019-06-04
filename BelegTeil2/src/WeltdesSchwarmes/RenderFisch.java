@@ -1,5 +1,6 @@
 package WeltdesSchwarmes;
 
+
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glColor3d;
@@ -16,6 +17,7 @@ public class RenderFisch {
 	private RenderFisch() {}
 
 	public static void renderFisch(float x, float y, int off, float winkel, int radius, float r, float g, float b) {
+		
 		
 		glLoadIdentity();
 		glTranslated(x, y, 0);

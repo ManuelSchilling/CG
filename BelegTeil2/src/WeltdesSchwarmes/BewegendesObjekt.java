@@ -9,7 +9,12 @@ public abstract class BewegendesObjekt extends BasisObjekt {
 	public Vektor2D lastAcceleration; 
 	public Vektor2D velocity; //Geschwindigkeit
 	
-	public Vektor2D heading; //Überschrift
+	//
+	public double RADIUS;
+	//
+	
+	
+	public Vektor2D heading; //Richtung
 	public Vektor2D side; 
 	public double MASS;
 	public double MAX_SPEED;
@@ -27,6 +32,17 @@ public abstract class BewegendesObjekt extends BasisObjekt {
 		this.acceleration = new Vektor2D(0, 0);		
 		this.lastAcceleration = new Vektor2D(0, 0);	
 	}
+	
+	//
+	public void setRadius(double radius) {
+		this.RADIUS = radius;
+	}
+	
+	public double getRadius() {
+		return RADIUS;
+	}
+	
+	//
 	
 	public void setMass(double mass) {
 		this.MASS = mass;

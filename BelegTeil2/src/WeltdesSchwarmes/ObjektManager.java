@@ -2,6 +2,8 @@ package WeltdesSchwarmes;
 
 import java.util.HashMap;
 
+
+
 public class ObjektManager {
    private HashMap<Integer, Agent> partikel;
    private static ObjektManager exemplar = new ObjektManager();
