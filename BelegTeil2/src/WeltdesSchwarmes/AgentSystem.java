@@ -31,7 +31,7 @@ public class AgentSystem extends LWJGLBasisFenster {
 		super("Agentenspielwiese", WIDTH, HEIGHT);
 		initDisplay();
 		agentenSpielwiese = ObjektManager.getExemplar();
-		erzeugeAgenten(100);
+		erzeugeAgenten(30);
 	}
 
 	private void erzeugeAgenten(int anz) {
@@ -43,9 +43,9 @@ public class AgentSystem extends LWJGLBasisFenster {
 					new Vektor2D(rand.nextFloat()*20, 0), 10, rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
 			agent.setVerhalten(new VerhaltenAgent(agent));
 			//
-				//agent.setMass(1 + rand.nextInt(2));
+				agent.setMass(agent.MASS);
 				agent.setRadius(10 + rand.nextInt(15));
-				agent.setMass(agent.getRadius() / 10);
+			//	agent.setMass(agent.getRadius() / 10);
 				
 				
 			//
