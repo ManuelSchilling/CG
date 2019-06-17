@@ -62,7 +62,7 @@ public abstract class LWJGLBasisFenster {
    
    public void initDisplay() throws IOException {
       try {
-	         Display.setIcon(new ByteBuffer[] {
+	 Display.setIcon(new ByteBuffer[] {
 	                 new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("src/Images/icon16.png")), false, false, null),
 	                 new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("src/Images/icon32.png")), false, false, null)
 	                 });

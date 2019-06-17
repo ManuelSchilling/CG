@@ -28,7 +28,7 @@ public class AgentSystem extends LWJGLBasisFenster {
 	private double runningAverageFrameTime = 1 / 60, avgRatio = 0.75;
 	private long last = System.nanoTime();
 	
-	final private static int WIDTH=1920, HEIGHT=900; 
+	final private static int WIDTH=2000, HEIGHT=1000; 
 
 	
 	final private static int ANZAHL=50; 
@@ -36,7 +36,7 @@ public class AgentSystem extends LWJGLBasisFenster {
 	
 	
 	public AgentSystem() throws IOException {
-		super("Agentenspielwiese", WIDTH, HEIGHT);
+		super("Fischschwarm", WIDTH, HEIGHT);
 		initDisplay();
 		agentenSpielwiese = ObjektManager.getExemplar();
 		erzeugeAgenten(ANZAHL);

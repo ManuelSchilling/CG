@@ -23,7 +23,7 @@ public class RenderFisch {
 
 	public static void renderFisch(float x, float y, int off, float winkel, int radius, float r, float g, float b) {
 			
-		System.out.println("radius: " +radius);
+	//	System.out.println("radius: " +radius);
 		int fishmove = radius * 100;
 		int anteil = fishmove /4;
 		if (i% fishmove <= anteil)

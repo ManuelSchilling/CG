@@ -19,7 +19,7 @@ public class VerhaltenAgent implements Verhalten {
 		mausForce.mult(-200);
 		//agent.applyForce(mausForce);
 		Vektor2D separationForce = steering.separation(agent, agent.SWARM_DISTANZ);
-		separationForce.mult(4);
+		separationForce.mult(3);
 		agent.applyForce(separationForce);
 		Vektor2D alignmentForce = steering.alignment(agent, agent.SWARM_DISTANZ);
 		alignmentForce.mult(3);
@@ -30,7 +30,7 @@ public class VerhaltenAgent implements Verhalten {
 		
 		
 		Vektor2D checkWall = steering.checkWall(agent, agent.SWARM_DISTANZ);
-		checkWall.mult(200);
+		checkWall.mult(300);
 		agent.applyForce(checkWall);
 		
 		Vektor2D checkDistance = steering.checkDistance(agent, agent.SWARM_DISTANZ);
