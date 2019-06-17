@@ -12,6 +12,9 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -27,24 +30,38 @@ public class AgentSystem extends LWJGLBasisFenster {
 	
 	final private static int WIDTH=1920, HEIGHT=900; 
 
-	public AgentSystem() {
+	
+	final private static int ANZAHL=50; 
+	final static int ABSTAND=10; 
+	
+	
+	public AgentSystem() throws IOException {
 		super("Agentenspielwiese", WIDTH, HEIGHT);
 		initDisplay();
 		agentenSpielwiese = ObjektManager.getExemplar();
-		erzeugeAgenten(30);
+		erzeugeAgenten(ANZAHL);
 	}
 
 	private void erzeugeAgenten(int anz) {
 		Random rand = ThreadLocalRandom.current();
-
+int[] ix = new int[ANZAHL], iy=new int[ANZAHL];
 		for (int i = 0; i < anz; i++) {
+		    ix[i]=rand.nextInt(WIDTH);
+		    iy[i]=rand.nextInt(HEIGHT);
+		    
+		    for(int n = 0; n<i; n++) {
+		    if (Math.abs(ix[n]-ix[i])<=ABSTAND && Math.abs(iy[n]-iy[i])<=ABSTAND)
+			 ix[i]=ix[i]-ABSTAND*2;	iy[i]=iy[i]-ABSTAND*2;
+			
+	
+		    }
 			Agent agent = new Agent(
-					new Vektor2D(rand.nextInt(WIDTH), rand.nextInt(HEIGHT)),
+					new Vektor2D(ix[i], iy[i]),
 					new Vektor2D(rand.nextFloat()*20, 0), 10, rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
 			agent.setVerhalten(new VerhaltenAgent(agent));
 			//
 				agent.setMass(agent.MASS);
-				agent.setRadius(10 + rand.nextInt(15));
+				agent.setRadius(10);
 			//	agent.setMass(agent.getRadius() / 10);
 				
 				
@@ -90,7 +107,7 @@ public class AgentSystem extends LWJGLBasisFenster {
 				aktAgent.update(diff);
 				//
 				
-				Display.setTitle("Debug:" + aktAgent.getAcceleration() +" "+ aktAgent.getAccelerationInRespectToMass());
+				//Display.setTitle("Debug:" + aktAgent.getAcceleration() +" "+ aktAgent.getAccelerationInRespectToMass());
 				
 				//
 			}
@@ -98,7 +115,13 @@ public class AgentSystem extends LWJGLBasisFenster {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		new AgentSystem().start();
+	}
+
+	@Override
+	protected ByteBuffer createBuffer(BufferedImage read) {
+	    // TODO Auto-generated method stub
+	    return null;
 	}
 }
