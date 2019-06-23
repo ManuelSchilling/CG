@@ -3,18 +3,10 @@ package WelteineseinsamenFisches;
 
 
 import java.awt.Canvas;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-
-import javax.imageio.ImageIO;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.newdawn.slick.opengl.ImageIOImageData;
 
 /*
  * Beschreibung:
@@ -48,7 +40,7 @@ public abstract class LWJGLBasisFenster {
 	   return HEIGHT;
    }
    
-   public void initDisplay(Canvas c) throws IOException {
+   public void initDisplay(Canvas c) {
       try {
          Display.setParent(c);
       } catch (LWJGLException e) {
@@ -58,29 +50,17 @@ public abstract class LWJGLBasisFenster {
       initDisplay();
    }
    
-
-   
-   public void initDisplay() throws IOException {
+   public void initDisplay() {
       try {
-	 Display.setIcon(new ByteBuffer[] {
-	                 new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("src/Images/icon16.png")), false, false, null),
-	                 new ImageIOImageData().imageToByteBuffer(ImageIO.read(new File("src/Images/icon32.png")), false, false, null)
-	                 });
          Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
          Display.setTitle(TITLE);
          Display.create();
-
-         
-         
-         
       } catch (LWJGLException e) {
          e.printStackTrace();
       }      
    }
    
-   protected abstract ByteBuffer createBuffer(BufferedImage read);
-
-public abstract void renderLoop();
+   public abstract void renderLoop();
    
    public void start() {     
       renderLoop();

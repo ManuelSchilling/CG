@@ -102,6 +102,4 @@ public class Vektor2D {
 	public void show() {
 		System.out.println(toString());
 	}
-
-
 }

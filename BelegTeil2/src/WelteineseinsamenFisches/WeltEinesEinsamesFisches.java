@@ -12,17 +12,13 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-
 import org.lwjgl.opengl.Display;
 
 
 public class  WeltEinesEinsamesFisches extends LWJGLBasisFenster {
 	private Fisch fisch;
 
-	public WeltEinesEinsamesFisches() throws IOException {
+	public WeltEinesEinsamesFisches() {
 		super("Welt eines einsamen Fisches", 640, 480);
 		initDisplay();
 		fisch = new Fisch(320, 240);
@@ -54,17 +50,6 @@ public class  WeltEinesEinsamesFisches extends LWJGLBasisFenster {
 	}
 
 	public static void main(String[] args) {
-		try {
-		    new WeltEinesEinsamesFisches().start();
-		} catch (IOException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}
-	}
-
-	@Override
-	protected ByteBuffer createBuffer(BufferedImage read) {
-	    // TODO Auto-generated method stub
-	    return null;
+		new WeltEinesEinsamesFisches().start();
 	}
 }
