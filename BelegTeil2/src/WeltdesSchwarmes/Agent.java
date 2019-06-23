@@ -11,18 +11,17 @@ public class Agent extends BewegendesObjekt {
 	public ObjektManager objektManager;
 	public float r,g,b;
 	public Agent(Vektor2D position, Vektor2D velocity, int radius, float r, float g, float b) {
-	    
 		super(position, velocity);
 		this.id = ++objCounter;
 
-		setMass(0.5);
-		setMaxSpeed(300);
-		setMaxTurnRate(30);
-		setSwarmDistanz(150);
+		setMass(0.2);
+		setMaxSpeed(200);
+		setMaxTurnRate(20);
+		setSwarmDistanz(70);
 		this.r=r;
 		this.g=g;
 		this.b=b;
-		setWegHistorie(new Weg2DDynamisch(10));
+		setWegHistorie(new Weg2DDynamisch(5));
 	}
 	public void setObjektManager(ObjektManager objektManager) {
 		this.objektManager = objektManager;
@@ -30,5 +29,8 @@ public class Agent extends BewegendesObjekt {
 	@Override
 	public void render(){
 		RenderFisch.renderSwarmObjectWithForces((float) position.x, (float) position.y, (int)RADIUS, velocity, getLastAcceleration(),this.r, this.g, this.b);
+		
+		//RenderFisch.renderObjectWithPath((float)position.x, (float)position.y, this.r, this.g, this.b, 1, (int)RADIUS, wegHistorie);
+		
 	}
 }

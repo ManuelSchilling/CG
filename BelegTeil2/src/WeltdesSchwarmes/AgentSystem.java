@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glDisable;
@@ -12,9 +13,33 @@ import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+//
+
+import static org.lwjgl.opengl.GL11.glFrustum;
+import static org.lwjgl.opengl.GL11.glRotatef;
+import static org.lwjgl.opengl.GL11.glTranslated;
+import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20.GL_LINK_STATUS;
+import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
+import static org.lwjgl.opengl.GL20.glAttachShader;
+import static org.lwjgl.opengl.GL20.glCompileShader;
+import static org.lwjgl.opengl.GL20.glCreateProgram;
+import static org.lwjgl.opengl.GL20.glCreateShader;
+import static org.lwjgl.opengl.GL20.glGetProgram;
+import static org.lwjgl.opengl.GL20.glGetProgramInfoLog;
+import static org.lwjgl.opengl.GL20.glGetShaderInfoLog;
+import static org.lwjgl.opengl.GL20.glLinkProgram;
+import static org.lwjgl.opengl.GL20.glShaderSource;
+import static org.lwjgl.opengl.GL20.glUseProgram;
+
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.Display;
+
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+
+//
+
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -28,40 +53,40 @@ public class AgentSystem extends LWJGLBasisFenster {
 	private double runningAverageFrameTime = 1 / 60, avgRatio = 0.75;
 	private long last = System.nanoTime();
 	
-	final private static int WIDTH=2000, HEIGHT=1000; 
+	final private static int WIDTH=1920, HEIGHT=900; 
+	
+	//
+	
+	private static String vertexShaderSource = ""
+			+ "void main() {"
+			+ "   gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;" 
+			+ "}";
 
-	
-	final private static int ANZAHL=50; 
-	final static int ABSTAND=10; 
-	
-	
-	public AgentSystem() throws IOException {
-		super("Fischschwarm", WIDTH, HEIGHT);
+		private static String fragShaderSource = ""
+			+ "void main() { " 
+			+ "   gl_FragColor = vec4(1, 1, 0, 1); " 
+			+ "}";
+
+		//
+
+	public AgentSystem() {
+		super("Agentenspielwiese", WIDTH, HEIGHT);
 		initDisplay();
 		agentenSpielwiese = ObjektManager.getExemplar();
-		erzeugeAgenten(ANZAHL);
+		erzeugeAgenten(30);
 	}
 
 	private void erzeugeAgenten(int anz) {
 		Random rand = ThreadLocalRandom.current();
-int[] ix = new int[ANZAHL], iy=new int[ANZAHL];
+
 		for (int i = 0; i < anz; i++) {
-		    ix[i]=rand.nextInt(WIDTH);
-		    iy[i]=rand.nextInt(HEIGHT);
-		    
-		    for(int n = 0; n<i; n++) {
-		    if (Math.abs(ix[n]-ix[i])<=ABSTAND && Math.abs(iy[n]-iy[i])<=ABSTAND)
-			 ix[i]=ix[i]-ABSTAND*2;	iy[i]=iy[i]-ABSTAND*2;
-			
-	
-		    }
 			Agent agent = new Agent(
-					new Vektor2D(ix[i], iy[i]),
+					new Vektor2D(rand.nextInt(WIDTH), rand.nextInt(HEIGHT)),
 					new Vektor2D(rand.nextFloat()*20, 0), 10, rand.nextFloat(), rand.nextFloat(), rand.nextFloat());
 			agent.setVerhalten(new VerhaltenAgent(agent));
 			//
 				agent.setMass(agent.MASS);
-				agent.setRadius(10);
+				agent.setRadius(10 + rand.nextInt(15));
 			//	agent.setMass(agent.getRadius() / 10);
 				
 				
@@ -75,8 +100,62 @@ int[] ix = new int[ANZAHL], iy=new int[ANZAHL];
 		return (int) (1 / runningAverageFrameTime);
 	}
 
+	//
+
+	private static ByteBuffer infoBuffer = BufferUtils.createByteBuffer(1024);
+	private static IntBuffer errorBuffer = BufferUtils.createIntBuffer(1);
+	
+	
+	public static void testShaderProgram(int shader) {
+		errorBuffer.rewind();
+		glGetProgram(shader, GL_LINK_STATUS, errorBuffer);
+		System.out.println(errorBuffer.get(0)==GL_TRUE?"OK":"ERROR");
+		int error = errorBuffer.get(0);
+		errorBuffer.put(0,1024);
+		glGetProgramInfoLog(shader, errorBuffer, infoBuffer);		
+		if (error!=GL_TRUE) 
+		{
+			byte bytes[] = new byte[1024];
+			infoBuffer.get(bytes).rewind();
+			System.err.println(new String(bytes, 0, errorBuffer.get(0)));
+		}
+	}
+	
+	
+	
+	
+	
+		private void prepareShader() {
+			int myProgram = glCreateProgram();
+
+			int vertShader = glCreateShader(GL_VERTEX_SHADER);
+			glShaderSource(vertShader, vertexShaderSource);
+			glCompileShader(vertShader);
+			System.out.println(glGetShaderInfoLog(vertShader, 1024));
+			glAttachShader(myProgram, vertShader);
+
+			int fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+			glShaderSource(fragShader, fragShaderSource);
+			glCompileShader(fragShader);
+			System.out.println(glGetShaderInfoLog(fragShader, 1024));
+			glAttachShader(myProgram, fragShader);
+
+			glLinkProgram(myProgram);
+			glUseProgram(myProgram);
+			
+			testShaderProgram(myProgram);
+		}
+
+	//
+	
+	
 	@Override
 	public void renderLoop() {
+		
+		//
+		prepareShader();		//auskommentieren um zu sehen, wie es vorher war
+		//
+		
 		glEnable(GL_DEPTH_TEST);
 
 		while (!Display.isCloseRequested()) {
@@ -107,7 +186,7 @@ int[] ix = new int[ANZAHL], iy=new int[ANZAHL];
 				aktAgent.update(diff);
 				//
 				
-				//Display.setTitle("Debug:" + aktAgent.getAcceleration() +" "+ aktAgent.getAccelerationInRespectToMass());
+				Display.setTitle("Debug:" + aktAgent.getAcceleration() +" "+ aktAgent.getAccelerationInRespectToMass());
 				
 				//
 			}
@@ -115,13 +194,7 @@ int[] ix = new int[ANZAHL], iy=new int[ANZAHL];
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		new AgentSystem().start();
-	}
-
-	@Override
-	protected ByteBuffer createBuffer(BufferedImage read) {
-	    // TODO Auto-generated method stub
-	    return null;
 	}
 }
