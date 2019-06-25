@@ -12,7 +12,9 @@ public class Agent extends BewegendesObjekt {
 
 	super(position, velocity);
 	this.id = ++objCounter;
-
+	
+	// kleine Änderung an den Kräften ==================================================================================
+	
 	setMass(0.5);
 	setMaxSpeed(200);
 	setMaxTurnRate(30);
@@ -29,6 +31,9 @@ public class Agent extends BewegendesObjekt {
 
     @Override
     public void render() {
+    	
+    // Aufruf einer Methode unserer Renderklasse ========================================================================
+    	
 	RenderFisch.renderSwarmObjectWithForces((float) position.x, (float) position.y, (int) RADIUS, velocity,
 		getLastAcceleration(), this.r, this.g, this.b);
     }

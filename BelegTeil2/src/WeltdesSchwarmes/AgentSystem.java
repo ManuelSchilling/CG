@@ -50,7 +50,8 @@ public class AgentSystem extends LWJGLBasisFenster {
 
     final private static int WIDTH = 1920, HEIGHT = 900;
 
-    //ShaderCode
+    //ShaderCode ========================================================================================
+    
     private static String vertexShaderSource = ""
 
 	    + "void main() {" + " gl_FrontColor = gl_Color;"
@@ -59,6 +60,8 @@ public class AgentSystem extends LWJGLBasisFenster {
     private static String fragShaderSource = ""
 
 	    + "void main() { " + "gl_FragColor = gl_Color;" + "}";
+    
+    // ==================================================================================================
 
     public AgentSystem() {
 	super("Die Welt der bunten Fische", WIDTH, HEIGHT);

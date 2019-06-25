@@ -17,7 +17,9 @@ public class VerhaltenAgent implements Verhalten {
 	//Mausverfolgung an/aus
 	//Vektor2D mausForce = steering.forceMousePosition(agent.position);
 	//mausForce.mult(100);
-	//agent.applyForce(mausForce);  	
+	//agent.applyForce(mausForce); 
+    // ======================================================================================
+    	
 	Vektor2D separationForce = steering.separation(agent, agent.SWARM_DISTANZ);
 	separationForce.mult(5);
 	agent.applyForce(separationForce);
@@ -35,6 +37,7 @@ public class VerhaltenAgent implements Verhalten {
 	checkDistance.mult(250);
 	agent.applyForce(checkDistance);
 
+	// ========================================================================================
 	// Rotationsrate einbeziehen!
 	Vektor2D wunschVelocity = LineareAlgebra.add(agent.getVelocity(),
 		LineareAlgebra.mult(agent.getAccelerationInRespectToMass(), time));

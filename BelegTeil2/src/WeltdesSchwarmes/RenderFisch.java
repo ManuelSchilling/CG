@@ -114,5 +114,6 @@ public class RenderFisch {
 
 	renderFisch(x, y, off, (float) winkel, radius, r, g, b);
 
+	// RenderObjectWithPath war (für uns) mit den Flossen leider nicht umsetzbar :( ==========================================
     }
 }
